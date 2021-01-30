@@ -43,16 +43,24 @@ header {
 .movieList {
   display: flex;
   flex-wrap: nowrap;
-  /* overflow-x: auto; */
-  /* justify-content: space-evenly; */
+  overflow-x: hidden;
   list-style: none;
 }
 
 .movie {
-  flex: 0 0 auto;
   width: 100px;
   margin-left: 20px;
-  animation: all 6s ease-in;
+  transition: all 1.5s ease-in;
+  flex: 0 0 auto;
+  display: block;
+  position: relative;
+  left: 0px;
+  opacity: 1;
+}
+
+.movie.hide {
+  left: 1000px;
+  opacity: 0;
 }
 
 .movieImage {

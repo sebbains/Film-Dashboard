@@ -42,10 +42,10 @@ async function getMovies() {
     const movies = data.results;
     // console.log(movies);
     movies.forEach(movie => {
-        console.log(movie.title);
         // create list item
         const li = document.createElement('li');
         li.classList.add('movie');
+        li.classList.add('hide');
         // create image
         const image = document.createElement('img');
         image.classList.add('movieImage');
@@ -57,5 +57,9 @@ async function getMovies() {
         li.appendChild(image);
         li.appendChild(title);
         movieList.appendChild(li);
+        // show item
+        setTimeout( function(){
+            li.classList.remove('hide');
+        }, 500);
     });
 }
