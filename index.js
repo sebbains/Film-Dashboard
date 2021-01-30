@@ -17,3 +17,45 @@ const films = ['Jaws', 'Aliens', 'Bad Santa', 'Casablanca', 'Ghost', 'Twister', 
 //level up:
 //1. Are you able to add your own personal rating to each film card too?
 
+const movieList = document.querySelector('.movieList');
+
+async function getMovies() {
+    // grab selections
+    // const fromCurrency = inputOriginalCurrency.value;
+    // const toCurrency = inputNewCurrency.value;
+    const imagePath = 'https://image.tmdb.org/t/p/w500/';
+    // personal key
+    const apiKey = '838b0a3bf7b99519f89a62d82df2b50a';
+    // encode currency and build the query
+    // const fromCurrencyURI = encodeURIComponent(fromCurrency);
+    // const toCurrencyURI = encodeURIComponent(toCurrency);
+    // const query = fromCurrencyURI + "_" + toCurrencyURI;
+    // add the key and query to final url
+    const url =
+      'https://api.themoviedb.org/3/discover/movie?api_key=' +
+      apiKey +
+      '&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1'
+    // send it
+    const response = await fetch(url);
+    const data = await response.json();
+    // const FXRate = data[query];
+    const movies = data.results;
+    // console.log(movies);
+    movies.forEach(movie => {
+        console.log(movie.title);
+        // create list item
+        const li = document.createElement('li');
+        li.classList.add('movie');
+        // create image
+        const image = document.createElement('img');
+        image.classList.add('movieImage');
+        image.src = imagePath + movie.poster_path;
+        // create title
+        const title = document.createElement('span');
+        title.textContent = movie.title;
+        // build and add
+        li.appendChild(image);
+        li.appendChild(title);
+        movieList.appendChild(li);
+    });
+}
