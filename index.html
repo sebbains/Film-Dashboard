@@ -5,30 +5,25 @@
     </head>
     <body>
         <header>
-            <div>
+            <div id="logo">
                 <h1>SCRIMFLIX</h1>
             </div>
-            <ul class="filters">
-                <li>
-                    Filters:
-                </li>
-                <li>Sort</li>
-                <li>Popularity</li>
-                <li>Reviews</li>
-                <li>Genre</li>
-            </ul>
+            <div id="sort">
+                <ul class="sortOptions">
+                    <li class="sortOption" data-sort="popularity">Popularity <span class="direction">&#9650</span></li>
+                    <li class="sortOption" data-sort="release_date">Release Date <span class="direction"></span></li>
+                    <li class="sortOption" data-sort="revenue">Revenue <span class="direction"></span></li>
+                    <li class="sortOption" data-sort="vote_average">Vote Average <span class="direction"></span></li>
+                    <li class="sortOption" data-sort="vote_count">Vote Count <span class="direction"></span></li>
+                </ul>
+            </div>
         </header>
         <main>
-            <section>
-                <h3 class="sectionTitle">movieList</h3>
-                <ul class="movieList">
-                </ul>
-            </section>
-            <section class="actionMovies">
+            <!-- example layout <section class="actionMovies">
                 <h3 class="actionTitle">action</h3>
                 <ul class="action movieList">
                 </ul>
-            </section>            
+            </section>             -->
         </main>
         <script src="index.js"></script>
     </body>

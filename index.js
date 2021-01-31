@@ -17,14 +17,18 @@ const films = ['Jaws', 'Aliens', 'Bad Santa', 'Casablanca', 'Ghost', 'Twister', 
 //level up:
 //1. Are you able to add your own personal rating to each film card too?
 const main = document.querySelector('main');
-
 const baseUrl = 'https://api.themoviedb.org/3/';
 const myApiKey = '838b0a3bf7b99519f89a62d82df2b50a';
+const sortOptions = document.querySelectorAll('.sortOption');
+let sortByQuery = '&sort_by=popularity.desc';
+let sortAsc = true;
+let lastSort = document.querySelector('.sortOption');
 
-// get available genres
+// get available genres from API
 async function getGenres() {
-    const urlQuery = 'genre/movie/list?api_key=';
-    const url = baseUrl + urlQuery + myApiKey;
+    // build url + query
+    const genreUrl = 'genre/movie/list?api_key=';
+    const url = baseUrl + genreUrl + myApiKey;
     // send it
     try{
         const response = await fetch(url);
@@ -40,13 +44,16 @@ async function getGenres() {
             // create section item
             const section = document.createElement('section');
             section.classList.add(`${className}Movies`);
+            section.setAttribute('data-genreid',`${genre.id}`);
             // create title
             const title = document.createElement('h3');
             title.classList.add(`${className}Title`);
             title.textContent = `${genre.name}`;
+            title.setAttribute('data-genreid',`${genre.id}`);
             // create ul
             const ul = document.createElement('ul');
             ul.classList.add(`${className}`, 'movieList');
+            ul.setAttribute('data-genreid',`${genre.id}`);
             // build and add to doc
             section.appendChild(title);
             section.appendChild(ul);
@@ -57,31 +64,47 @@ async function getGenres() {
     }
 }
 
+function updateSortQuery(e){
+    // clear previously selected style and arrow
+    lastSort.classList.remove('selected');
+    const lastArrow = lastSort.querySelector('.direction');
+    lastArrow.innerHTML = '';
+    // add selected style
+    this.classList.add('selected');
+    // if direction pressed flip
+    if( e.target.classList.contains('direction')){
+        sortAsc = !sortAsc;
+    }
+    // update arrow pointer
+    const arrow = this.querySelector('.direction');
+    arrow.innerHTML = sortAsc? '&#9650' : '&#9661';
+    // rebuild sort query
+    const directionQuery = sortAsc? '.asc': '.desc';
+    const baseQuery = '&sort_by=';
+    const sortQuery = `${this.dataset.sort}`;
+    sortByQuery = baseQuery + sortQuery + directionQuery;
+    // update lastSort
+    lastSort = this;
+    // repopulate movies
+    populateMovies()
+}
 
-const movieList = document.querySelector('.movieList');
-
-async function getMovies() {
-    // grab selections
-    // const fromCurrency = inputOriginalCurrency.value;
-
+// populate provided list with all movies
+async function getMovies(ul, genreid) {
+    // build full url + queries
     const imagePath = 'https://image.tmdb.org/t/p/w500/';
-    // personal key
-    const apiKey = '838b0a3bf7b99519f89a62d82df2b50a';
-    // encode currency and build the query
-    // const fromCurrencyURI = encodeURIComponent(fromCurrency);
-    // const query = fromCurrencyURI + "_" + toCurrencyURI;
-
-    // add the key and query to final url
-    const url =
-      'https://api.themoviedb.org/3/discover/movie?api_key=' +
-      apiKey +
-      '&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1'
+    const discoverUrl = 'discover/movie?api_key=';
+    const languageQuery = '&language=en-US';
+    const adultQuery = '&include_adult=false';
+    const videoQuery = '&include_video=false';
+    const pageQuery = '&page=1';
+    const genreQuery = `&with_genres=${genreid}`;
+    const fullUrl = baseUrl + discoverUrl + myApiKey + languageQuery + sortByQuery + adultQuery + videoQuery + pageQuery + genreQuery;
     // send it
     try{
-        const response = await fetch(url);
+        const response = await fetch(fullUrl);
         const data = await response.json();
         const movies = data.results;
-        console.log(movies);
         movies.forEach(movie => {
             // create list item
             const li = document.createElement('li');
@@ -90,14 +113,18 @@ async function getMovies() {
             // create image
             const image = document.createElement('img');
             image.classList.add('movieImage');
-            image.src = imagePath + movie.poster_path;
+            let imageSource = imagePath + movie.poster_path;
+            if( movie.poster_path === null){
+                imageSource = 'imgs/tbc.jpg';
+            }
+            image.src = imageSource;
             // create title
             const title = document.createElement('span');
             title.textContent = movie.title;
             // build and add
             li.appendChild(image);
             li.appendChild(title);
-            movieList.appendChild(li);
+            ul.appendChild(li);
             // show item
             setTimeout( function(){
                 li.classList.remove('hide');
@@ -107,3 +134,17 @@ async function getMovies() {
         console.log(err);
     }
 }
+
+function populateMovies(){
+    const sections = document.querySelectorAll('section');
+    sections.forEach( section => {
+        const movieList = section.querySelector('ul');
+        const genreid = movieList.dataset.genreid;
+        movieList.innerHTML = "";
+        getMovies(movieList, genreid);
+    })
+}
+
+sortOptions.forEach( option => option.addEventListener('click', updateSortQuery));
+getGenres();
+populateMovies();
