@@ -71,7 +71,6 @@ async function getGenres() {
 
 function updateSortQuery(){
     // ternary flips direction if same sort was clicked otherwise default desc
-    console.log("sortAsc", sortAsc, "sortByQuery", sortByQuery);
     sortAsc = ( lastSort === this)? !sortAsc : false;
     // clear previously selected style and arrow
     lastSort.classList.remove('selected');
@@ -91,7 +90,6 @@ function updateSortQuery(){
     lastSort = this;
     // repopulate movies
     populateMovies();
-    console.log("sortAsc", sortAsc, "sortByQuery", sortByQuery);
 }
 
 // populate provided list with all movies
@@ -128,12 +126,21 @@ async function getMovies(ul, genreid) {
             details.classList.add('movieDetailsDiv');
             details.classList.add('hidden');
             // details title
-            const title = document.createElement('h5');
+            const title = document.createElement('h4');
             title.textContent = movie.title;
             // details overview
             const overview = document.createElement('p');
-            const textSummary = (movie.overview.length >175)? `${movie.overview.substring(0,175)}<span class"readMore">...read more` : `${movie.overview.substring(0,200)}`;
+            const textSummary = (movie.overview.length >175)? `${movie.overview.substring(0,175)}` : `${movie.overview.substring(0,200)}`;
+            overview.classList.add('overview');
             overview.innerHTML = textSummary;
+            // overview readmore
+            const readMore = document.createElement('span');
+            readMore.innerText = '... read more';
+            readMore.classList.add('readMore');
+            // hidden full text
+            const fullText = document.createElement('p');
+            fullText.innerText = movie.overview;
+            fullText.classList.add('fullText');
             // mini details container
             const miniDetails = document.createElement('div');
             miniDetails.classList.add('minis');
@@ -159,6 +166,10 @@ async function getMovies(ul, genreid) {
             // build details
             details.appendChild(title);
             details.appendChild(overview);
+            if(movie.overview.length >175){
+                details.appendChild(readMore);
+            };
+            details.appendChild(fullText);
             details.appendChild(miniDetails);
             // build li
             li.appendChild(image);
@@ -184,6 +195,18 @@ async function getMovies(ul, genreid) {
             setTimeout( function(){
                 li.classList.remove('hide');
             }, 500);
+            // add readMore event listeners
+            readMore.addEventListener('click', (e) => {
+                const readMore = e.target;
+                // hide current and previous text
+                readMore.previousSibling.style.display = "none";
+                readMore.style.display = "none";
+                // show full text
+                readMore.nextSibling.style.display = "block";
+                // increase grand parent width
+                console.log(readMore.parentNode.parentNode);
+                readMore.parentNode.parentNode.classList.add('extraWide');
+            });
         });
     } catch( err) {
         console.log(err);
@@ -200,12 +223,12 @@ async function getMovies(ul, genreid) {
     ul.addEventListener('mouseleave', () => {
         isDown = false;
         ul.classList.remove('active');
-    })
+    });
 
     ul.addEventListener('mouseup', () => {
         isDown = false;
         ul.classList.remove('active');
-    })
+    });
 
     ul.addEventListener('mousemove', (e) => {
         if(!isDown) return;
@@ -216,8 +239,7 @@ async function getMovies(ul, genreid) {
         const walk = (endX - startX) * 2; // increase scroll effect
         // and apply
         ul.scrollLeft = scrollLeft - walk;
-    })
-
+    });
 }
 
 function populateMovies(){
@@ -229,7 +251,6 @@ function populateMovies(){
         getMovies(movieList, genreid);
     })
 }
-
 
 sortOptions.forEach( option => option.addEventListener('click', updateSortQuery));
 getGenres();

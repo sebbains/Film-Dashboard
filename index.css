@@ -21,9 +21,9 @@ body {
   --dark-red: #b81d24;
   --black: #000;
   --white: #f5f5f1;
-  --vote-good: #008f07;
-  --vote-bad: #e2c000;
-  --vote-ugly: #770006;
+  --vote-good: #06d6a0;
+  --vote-bad: #f9c74f;
+  --vote-ugly: #f94144;
 }
 
 header {
@@ -37,6 +37,10 @@ header {
   background-color: var(--bright-red);
   /* margin-bottom: 5vh; */
   /* box-shadow: 0 10px 6px -6px var(--dark-red); */
+}
+
+h1 {
+  padding: 0 0.5em;
 }
 
 #sort {
@@ -67,7 +71,7 @@ section {
   justify-content: center;
 }
 
-.actionTitle {
+h3 {
   padding: 0.5em 1em;
 }
 
@@ -88,7 +92,6 @@ section {
   position: relative;
   left: 0px;
   opacity: 1;
-  cursor: pointer;
 }
 
 .movie.hide {
@@ -102,13 +105,19 @@ section {
   /* z-index: 1; */
 }
 
+.movie.selected.extraWide {
+  width: 750px;
+}
+
 .movieImage {
   height: 150px;
   width: 100px;
+  cursor: pointer;
   /* box-shadow: 0 10px 6px -6px var(--dark-red); */
 }
 
 .movieDetailsDiv {
+  width: 100%;
   padding-left: 10px;
   display: flex;
   flex-direction: column;
@@ -117,6 +126,21 @@ section {
 
 .movieDetailsDiv.hidden {
   display: none;
+}
+
+.overview,
+.fullText {
+  line-height: 1.5em;
+}
+
+.fullText {
+  display: none;
+}
+
+.readMore {
+  font-size: 0.75em;
+  padding-left: 0.5em;
+  cursor: pointer;
 }
 
 .minis {
