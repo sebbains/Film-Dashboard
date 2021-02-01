@@ -24,6 +24,8 @@ let sortByQuery = '&sort_by=popularity.desc';
 let sortAsc = true;
 let lastSort = document.querySelector('.sortOption');
 let isDown = false;
+let startX;
+let scrollLeft;
 
 // get available genres from API
 async function getGenres() {
@@ -175,8 +177,35 @@ async function getMovies(ul, genreid) {
     } catch( err) {
         console.log(err);
     }
-    // add ul event listener for scroll
-    // ul.addEventListener('mousedown')
+    // add ul event listeners for scroll movement
+    ul.addEventListener('mousedown', (e) => {
+        isDown = true;
+        ul.classList.add('active');
+        // grab start point
+        startX = e.pageX - ul.offsetLeft; // deducts any margin
+        scrollLeft = ul.scrollLeft;
+    });
+
+    ul.addEventListener('mouseleave', () => {
+        isDown = false;
+        ul.classList.remove('active');
+    })
+
+    ul.addEventListener('mouseup', () => {
+        isDown = false;
+        ul.classList.remove('active');
+    })
+
+    ul.addEventListener('mousemove', (e) => {
+        if(!isDown) return;
+        e.preventDefault();
+        // grab end point
+        const endX = e.pageX - ul.offsetLeft; // deducts any margin
+        // difference
+        const walk = (endX - startX) * 3; // increase scroll effect
+        // and apply
+        ul.scrollLeft = scrollLeft - walk;
+    })
 
 }
 
