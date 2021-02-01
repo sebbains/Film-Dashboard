@@ -23,6 +23,7 @@ const sortOptions = document.querySelectorAll('.sortOption');
 let sortByQuery = '&sort_by=popularity.desc';
 let sortAsc = true;
 let lastSort = document.querySelector('.sortOption');
+let isDown = false;
 
 // get available genres from API
 async function getGenres() {
@@ -151,13 +152,20 @@ async function getMovies(ul, genreid) {
             li.appendChild(details);
             // add to dom
             ul.appendChild(li);
-            // add event listener
+            // add event listener to show details
             li.addEventListener('click', (e) => {
-                // toggle additional details
+                // toggle additional details view
                 const selectedMovie = e.target.parentNode;
                 selectedMovie.classList.toggle('selected');
                 const additionalDetails = selectedMovie.childNodes[1];
-                additionalDetails.classList.toggle('hidden');
+                // wait until expanded to show details
+                if( !additionalDetails.classList.contains('hidden')){
+                    additionalDetails.classList.add('hidden');
+                } else{
+                    setTimeout( function(){
+                        additionalDetails.classList.remove('hidden');
+                    }, 1500);
+                }
             });
             // show item
             setTimeout( function(){
@@ -167,6 +175,9 @@ async function getMovies(ul, genreid) {
     } catch( err) {
         console.log(err);
     }
+    // add ul event listener for scroll
+    // ul.addEventListener('mousedown')
+
 }
 
 function populateMovies(){
@@ -178,6 +189,7 @@ function populateMovies(){
         getMovies(movieList, genreid);
     })
 }
+
 
 sortOptions.forEach( option => option.addEventListener('click', updateSortQuery));
 getGenres();

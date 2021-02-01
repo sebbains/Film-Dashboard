@@ -96,11 +96,8 @@ header {
 
 .movieDetailsDiv {
   padding-left: 10px;
-  transition: all 1.5s cubic-bezier(0.19, 1.34, 0.87, 0.99);
-  opacity: 1;
 }
 
 .movieDetailsDiv.hidden {
   display: none;
-  opacity: 0;
 }
