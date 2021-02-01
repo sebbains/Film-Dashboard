@@ -66,17 +66,15 @@ async function getGenres() {
     populateMovies();
 }
 
-function updateSortQuery(e){
+function updateSortQuery(){
+    // ternary flips direction if same sort was clicked otherwise default asc
+    sortAsc = ( lastSort === this)? !sortAsc : true;
     // clear previously selected style and arrow
     lastSort.classList.remove('selected');
     const lastArrow = lastSort.querySelector('.direction');
     lastArrow.innerHTML = '';
     // add selected style
     this.classList.add('selected');
-    // if direction pressed flip
-    if( e.target.classList.contains('direction')){
-        sortAsc = !sortAsc;
-    }
     // update arrow pointer
     const arrow = this.querySelector('.direction');
     arrow.innerHTML = sortAsc? '&#9650' : '&#9661';
