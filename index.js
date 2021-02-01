@@ -130,25 +130,34 @@ async function getMovies(ul, genreid) {
             title.textContent = movie.title;
             // details overview
             const overview = document.createElement('p');
-            overview.textContent = movie.overview;
-            // details vote average
+            const textSummary = (movie.overview.length >175)? `${movie.overview.substring(0,175)}<span class"readMore">...read more` : `${movie.overview.substring(0,200)}`;
+            overview.innerHTML = textSummary;
+            // mini details container
+            const miniDetails = document.createElement('div');
+            miniDetails.classList.add('minis');
+            // mini details vote average
             const voteAverage = document.createElement('span');
-            voteAverage.textContent = movie.vote_average;
+            const face = (movie.vote_average >= 6.66)? 'smile' :(movie.vote_average >= 3.33)? 'meh' : 'frown';
+            const style = (movie.vote_average >= 6.66)? 'good' :(movie.vote_average >= 3.33)? 'bad' : 'ugly';
+            voteAverage.innerHTML = `<i class="fas fa-${face}"></i> ${movie.vote_average}`;
             voteAverage.classList.add('voteAverage');
-            // details vote count
+            voteAverage.classList.add(`${style}`);
+            // mini details vote count
             const voteCount = document.createElement('span');
-            voteCount.textContent = movie.vote_count;
+            voteCount.innerHTML = `<i class="fas fa-vote-yea"></i> ${movie.vote_count}`;
             voteCount.classList.add('voteCount');
-            // details release date
+            // mini details release date
             const releaseDate = document.createElement('span');
-            releaseDate.textContent = movie.release_date;
+            releaseDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${movie.release_date}`;
             releaseDate.classList.add('releaseDate');
-            // build div
+            // build mini details
+            miniDetails.appendChild(voteAverage);
+            miniDetails.appendChild(voteCount);
+            miniDetails.appendChild(releaseDate);
+            // build details
             details.appendChild(title);
             details.appendChild(overview);
-            details.appendChild(voteAverage);
-            details.appendChild(voteCount);
-            details.appendChild(releaseDate);
+            details.appendChild(miniDetails);
             // build li
             li.appendChild(image);
             li.appendChild(details);
@@ -202,7 +211,7 @@ async function getMovies(ul, genreid) {
         // grab end point
         const endX = e.pageX - ul.offsetLeft; // deducts any margin
         // difference
-        const walk = (endX - startX) * 3; // increase scroll effect
+        const walk = (endX - startX) * 2; // increase scroll effect
         // and apply
         ul.scrollLeft = scrollLeft - walk;
     })
