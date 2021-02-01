@@ -21,7 +21,7 @@ const baseUrl = 'https://api.themoviedb.org/3/';
 const myApiKey = '838b0a3bf7b99519f89a62d82df2b50a';
 const sortOptions = document.querySelectorAll('.sortOption');
 let sortByQuery = '&sort_by=popularity.desc';
-let sortAsc = true;
+let sortAsc = false;
 let lastSort = document.querySelector('.sortOption');
 let isDown = false;
 let startX;
@@ -70,8 +70,9 @@ async function getGenres() {
 }
 
 function updateSortQuery(){
-    // ternary flips direction if same sort was clicked otherwise default asc
-    sortAsc = ( lastSort === this)? !sortAsc : true;
+    // ternary flips direction if same sort was clicked otherwise default desc
+    console.log("sortAsc", sortAsc, "sortByQuery", sortByQuery);
+    sortAsc = ( lastSort === this)? !sortAsc : false;
     // clear previously selected style and arrow
     lastSort.classList.remove('selected');
     const lastArrow = lastSort.querySelector('.direction');
@@ -80,7 +81,7 @@ function updateSortQuery(){
     this.classList.add('selected');
     // update arrow pointer
     const arrow = this.querySelector('.direction');
-    arrow.innerHTML = sortAsc? '&#9650' : '&#9661';
+    arrow.innerHTML = sortAsc? '&#9651' :'&#9660';
     // rebuild sort query
     const directionQuery = sortAsc? '.asc': '.desc';
     const baseQuery = '&sort_by=';
@@ -90,6 +91,7 @@ function updateSortQuery(){
     lastSort = this;
     // repopulate movies
     populateMovies();
+    console.log("sortAsc", sortAsc, "sortByQuery", sortByQuery);
 }
 
 // populate provided list with all movies
