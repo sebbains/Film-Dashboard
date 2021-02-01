@@ -62,6 +62,8 @@ async function getGenres() {
     } catch( err) {
         console.log(err);
     }
+    // repopulate movies
+    populateMovies();
 }
 
 function updateSortQuery(e){
@@ -86,7 +88,7 @@ function updateSortQuery(e){
     // update lastSort
     lastSort = this;
     // repopulate movies
-    populateMovies()
+    populateMovies();
 }
 
 // populate provided list with all movies
@@ -118,13 +120,47 @@ async function getMovies(ul, genreid) {
                 imageSource = 'imgs/tbc.jpg';
             }
             image.src = imageSource;
-            // create title
-            const title = document.createElement('span');
+            // create details div
+            const details = document.createElement('div');
+            details.classList.add('movieDetailsDiv');
+            details.classList.add('hidden');
+            // details title
+            const title = document.createElement('h5');
             title.textContent = movie.title;
-            // build and add
+            // details overview
+            const overview = document.createElement('p');
+            overview.textContent = movie.overview;
+            // details vote average
+            const voteAverage = document.createElement('span');
+            voteAverage.textContent = movie.vote_average;
+            voteAverage.classList.add('voteAverage');
+            // details vote count
+            const voteCount = document.createElement('span');
+            voteCount.textContent = movie.vote_count;
+            voteCount.classList.add('voteCount');
+            // details release date
+            const releaseDate = document.createElement('span');
+            releaseDate.textContent = movie.release_date;
+            releaseDate.classList.add('releaseDate');
+            // build div
+            details.appendChild(title);
+            details.appendChild(overview);
+            details.appendChild(voteAverage);
+            details.appendChild(voteCount);
+            details.appendChild(releaseDate);
+            // build li
             li.appendChild(image);
-            li.appendChild(title);
+            li.appendChild(details);
+            // add to dom
             ul.appendChild(li);
+            // add event listener
+            li.addEventListener('click', (e) => {
+                // toggle additional details
+                const selectedMovie = e.target.parentNode;
+                selectedMovie.classList.toggle('selected');
+                const additionalDetails = selectedMovie.childNodes[1];
+                additionalDetails.classList.toggle('hidden');
+            });
             // show item
             setTimeout( function(){
                 li.classList.remove('hide');
@@ -147,4 +183,3 @@ function populateMovies(){
 
 sortOptions.forEach( option => option.addEventListener('click', updateSortQuery));
 getGenres();
-populateMovies();
