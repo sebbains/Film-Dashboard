@@ -130,12 +130,12 @@ async function getMovies(ul, genreid) {
             title.textContent = movie.title;
             // details overview
             const overview = document.createElement('p');
-            const textSummary = (movie.overview.length >175)? `${movie.overview.substring(0,175)}` : `${movie.overview.substring(0,200)}`;
+            const textSummary = (movie.overview.length >175)? `${movie.overview.substring(0,175)}...` : `${movie.overview.substring(0,200)}`;
             overview.classList.add('overview');
             overview.innerHTML = textSummary;
             // overview readmore
             const readMore = document.createElement('span');
-            readMore.innerText = '... read more';
+            readMore.innerText = 'read more';
             readMore.classList.add('readMore');
             // hidden full text
             const fullText = document.createElement('p');
