@@ -26,6 +26,87 @@ body {
   --vote-ugly: #f94144;
 }
 
+.loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 10;
+  /* background-color: var(--black); */
+  perspective: 400px;
+  transition: all 1s cubic-bezier(0.19, 1.34, 0.87, 0.99);
+  opacity: 1;
+}
+
+.loaderBack {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--black);
+  z-index: 5;
+  transition: all 1s cubic-bezier(0.19, 1.34, 0.87, 0.99);
+  opacity: 1;
+}
+
+.loader.hidden {
+  opacity: 0;
+  z-index: -1;
+}
+
+.loaderBack.hidden {
+  opacity: 0;
+  z-index: -1;
+}
+
+.logo {
+  padding: 0 5px;
+  font-size: 10em;
+  font-weight: 900;
+  color: var(--bright-red);
+}
+
+#logo1 {
+  transform: rotateY(90deg) scale(1.5);
+  margin-right: 20px;
+}
+
+#logo2 {
+  transform: rotateY(67.5deg) scale(1.375);
+  margin-right: 5px;
+}
+
+#logo3 {
+  transform: rotateY(45deg) scale(1.25);
+}
+
+#logo4 {
+  transform: rotateY(22.5deg) scale(1.125);
+}
+
+#logo5 {
+  transform: rotateY(0deg) scale(1);
+}
+
+#logo6 {
+  transform: rotateY(-22.5deg) scale(1.125);
+}
+
+#logo7 {
+  transform: rotateY(-45deg) scale(1.25);
+}
+
+#logo8 {
+  transform: rotateY(-67.5deg) scale(1.375);
+  margin-left: 5px;
+}
+
+#logo9 {
+  transform: rotateY(-90deg) scale(1.5);
+  margin-left: 20px;
+}
+
 header {
   display: flex;
   position: sticky;

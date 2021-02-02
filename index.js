@@ -204,7 +204,6 @@ async function getMovies(ul, genreid) {
                 // show full text
                 readMore.nextSibling.style.display = "block";
                 // increase grand parent width
-                console.log(readMore.parentNode.parentNode);
                 readMore.parentNode.parentNode.classList.add('extraWide');
             });
         });
@@ -254,3 +253,12 @@ function populateMovies(){
 
 sortOptions.forEach( option => option.addEventListener('click', updateSortQuery));
 getGenres();
+const loader = document.querySelector('.loader');
+const loaderBack = loader.parentNode;
+loader.classList.remove('hidden');
+setTimeout(function(){
+    loader.classList.add('hidden');
+    setTimeout(function(){
+        loaderBack.classList.add('hidden');
+    }, 500);
+}, 1500);
