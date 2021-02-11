@@ -73,36 +73,28 @@ body {
 }
 
 #logo2 {
-  transform: rotateY(67.5deg) scale(1.375);
+  transform: rotateY(60deg) scale(1.33);
   margin-right: 5px;
 }
 
 #logo3 {
-  transform: rotateY(45deg) scale(1.25);
+  transform: rotateY(30deg) scale(1.16);
 }
 
 #logo4 {
-  transform: rotateY(22.5deg) scale(1.125);
-}
-
-#logo5 {
   transform: rotateY(0deg) scale(1);
 }
 
+#logo5 {
+  transform: rotateY(-30deg) scale(1.16);
+}
+
 #logo6 {
-  transform: rotateY(-22.5deg) scale(1.125);
-}
-
-#logo7 {
-  transform: rotateY(-45deg) scale(1.25);
-}
-
-#logo8 {
-  transform: rotateY(-67.5deg) scale(1.375);
+  transform: rotateY(-60deg) scale(1.33);
   margin-left: 5px;
 }
 
-#logo9 {
+#logo7 {
   transform: rotateY(-90deg) scale(1.5);
   margin-left: 20px;
 }
